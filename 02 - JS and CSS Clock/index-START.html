@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JS + CSS Clock</title>
+  <title>JavaScript Clock</title>
 </head>
 <body>
 
@@ -61,11 +61,44 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transition-all: 0.07s;
+      transition: cubic-bezier(1,-0.21,0,3.8);
+    }
+
+    .min-hand {
+      width: 40%;
+      margin-left: 10%;
+    }
+
+    .hour-hand {
+      width: 30%;
+      margin-left: 20%;
     }
 
   </style>
-
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+    function setDate() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const secondsDegrees = ((seconds /60) * 360) + 90; //90 degrees to swing arms vertical
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`
+      
+      const minutes = now.getMinutes();
+      const minutesDegrees = ((minutes /60) * 360) + 90;
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`
+
+      const hours = now.getHours();
+      const hoursDegrees = ((hours /12) * 360) + ((minutes /60) * 30) + 90; //move hour hand slow over the hour by referencing minutes
+      console.log(hoursDegrees);
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`
+
+    }
+
+    setInterval(setDate, 1000);
 
 
   </script>
